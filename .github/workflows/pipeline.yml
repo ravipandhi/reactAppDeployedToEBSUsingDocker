@@ -8,6 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build docker image from dockerfile.dev and instantiate docker container to run tests
       - run: docker build -t testfrontendapp -f Dockerfile.dev .
       - run: docker run -e CI=true testfrontendapp npm test
