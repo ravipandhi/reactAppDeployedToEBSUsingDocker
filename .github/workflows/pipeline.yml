@@ -1,0 +1,14 @@
+name: Test frontend app
+on:
+  push:
+    branches: ["master"]
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build docker image from dockerfile.dev
+      - run: docker build -t testfrontendapp -f Dockerfile.dev .
+      - name: Instantiate docker container to run tests
+      - run: docker run -e CI=true testfrontendapp npm test
