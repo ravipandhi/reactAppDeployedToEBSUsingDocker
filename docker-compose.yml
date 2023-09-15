@@ -9,7 +9,7 @@ services:
     volumes:
       - /home/node/app/node_modules
       - .:/home/node/app
-  tests:
+  tests: #for running a container for testing
     stdin_open: true
     build:
       context: .
