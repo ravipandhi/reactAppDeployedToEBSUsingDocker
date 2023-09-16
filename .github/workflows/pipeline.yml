@@ -12,3 +12,16 @@ jobs:
         run: docker build -t testfrontendapp -f Dockerfile.dev .
       - name: Instantiate docker container to run tests
         run: docker run -e CI=true testfrontendapp npm test
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: dockerReactApp
+          environment_name: dockerReactApp-env
+          existing_bucket_name: elasticbeanstalk-us-east-2-606394337760
+          region: us-east-2
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
